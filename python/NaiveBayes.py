@@ -58,7 +58,7 @@ def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):
     else:
         return 0
 
-
+# prepare train data
 listOposts, listClasses = loadDataSet()
 myVocablist = createVocabList(listOposts)
 # create empty matrix to contain the train vector
@@ -67,13 +67,24 @@ for postinDoc in listOposts:
     trainMat.append(setOfWords2Vec(myVocablist, postinDoc))
 trainMat = np.array(trainMat)
 listClasses = np.array(listClasses)
-# train the model
-p0Vect, p1Vect, py_1 = trainNB0(trainMat, listClasses)
 
+# model training
+# Choose which method: myself = True; ski-learn = False
+ownCodeOrSki_learn = False
 
-# test data
-test_txt = ['my', 'dog', 'has', 'stupid',  'garbage']
+test_txt = ['my', 'dog', 'has', 'stupid', 'garbage']
 test_vect = np.array(setOfWords2Vec(myVocablist, test_txt))
-result = classifyNB(test_vect, p0Vect, p1Vect, py_1)
 
-print(result)
+if ownCodeOrSki_learn:
+    # train the model
+    p0Vect, p1Vect, py_1 = trainNB0(trainMat, listClasses)
+    # test data
+    result = classifyNB(test_vect, p0Vect, p1Vect, py_1)
+    print(result)
+else:
+    from sklearn.naive_bayes import BernoulliNB
+    clf = BernoulliNB()
+    clf.fit(trainMat, listClasses)
+    # the input of clf.predict should be 2D.
+    print(clf.predict(np.atleast_2d(test_vect)))
+
