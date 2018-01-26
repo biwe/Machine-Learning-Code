@@ -3,6 +3,6 @@
 # We can share any code about ML.
 
 # I think this is a good way to improve the ability of code.
-# It is a good coding style to add some key comment. Please remember this!!!
+# It is a good coding style to add some key comments. Please remember this!!!
 
 # So have fun !!!
